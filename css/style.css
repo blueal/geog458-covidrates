@@ -1,67 +1,67 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
 }
 
 #map {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
 }
 
 /* the layout of the legend panel */
-header, #legend, #text-description {
+#legend,
+#title {
     position: absolute;
+    width: 110px;
     background: #fff;
-    padding: 8px;
+    padding: 10px 20px 10px 10px;
     border-radius: 3px;
-}
-
-header {
-    top: 20px;
-    left: 20px;
-    z-index: 2;
-    font-size: 0.8em;
-}
-
-h1 {
-    font-size: 1.2em;
-}
-
-header footer {
-    font-size: 0.7em;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #legend {
-    bottom: 40px;
-    right: 20px;
-    width: 200px;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-bottom: 40px;
 }
 
-#text-description {
-    bottom: 40px;
-    left: 20px;
+#title {
+    top: 0;
+    left: 0;
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px 20px 10px 10px;
+    z-index: 2;
 }
 
-.legend-key {
-    border-radius: 2px;
+/* each line for a break */
+.break {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* basic style for a dot/circle */
+.dot {
     display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-right: 4px;
+    margin-top: 5px;
+    border-radius: 50%;
+    opacity: 0.6;
 }
 
+/* the label for the dot */
+.dot-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-style: italic;
+}
+
+/* the text color of a hyper link */
 a {
     color: black
-}
-
-h2, h3 {
-    margin: 0 0 4px 0;
-}
-
-h3 {
-    font-size: 0.8em;
 }
