@@ -10,8 +10,13 @@ Data originated from:
 - [ACS](https://data.census.gov/cedsci/table?g=0100000US%24050000&d=ACS%205-Year%20Estimates%20Data%20Profiles&tid=ACSDP5Y2018.DP05&hidePreview=true)
 - [The US Census Bureau](https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html)
 
-MAP 1 HERE
+### [Map 1](https://blueal.github.io/geog458-covidrates/map1)
+![Map 1](./img/map1.PNG)
+Map depicting Covid Case Rates by County
 
-MAP 2 HERE
 
-On each map, a user may click on a county to see a popup containing more information. The legend in the bottom right corner contains the neccesary information to understand the coloring.
+### [Map 2](https://blueal.github.io/geog458-covidrates/map2)
+![Map 2](./img/map2.PNG)
+Map depicting Covid Case Counts by County
+
+On each map, a user may click on a county to see a popup containing more information. The legend in the bottom right corner contains the neccesary information to understand the coloring and sizing if applicable.
