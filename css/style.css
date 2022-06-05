@@ -29,6 +29,15 @@ body {
     margin-bottom: 40px;
 }
 
+#legend-title {
+    font-weight: bold;
+    text-align:center;
+}
+
+#map1-legend-labels {
+    text-align:left
+}
+
 #title {
     top: 0;
     left: 0;

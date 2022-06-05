@@ -8,9 +8,26 @@ let map = new mapboxgl.Map({
     projection: 'albers'
 });
 
-const grades = [50, 100, 500, 2000, 5000],
-    colors = ['rgb(255,255,178)', 'rgb(254,217,118)', 'rgb(254,178,76)', 'rgb(253,141,60)', 'rgb(189,0,38)'],
-    radii = [2.5, 5, 7.5, 10, 15];
+const layers = [
+    '0-9',
+    '10-19',
+    '20-49',
+    '50-99',
+    '100-199',
+    '200-499',
+    '500-999',
+    '1000+'
+];
+const colors = [
+    '#FFEDA070',
+    '#FED97670',
+    '#FEB24C70',
+    '#FD8D3C70',
+    '#FC4E2A70',
+    '#E31A1C70',
+    '#BD002670',
+    '#80002670'
+];
 
 //load data to the map as new layers.
 //map.on('load', function loadingData() {
@@ -18,70 +35,55 @@ map.on('load', () => { //simplifying the function statement: arrow with brackets
 
     // when loading a geojson, there are two steps
     // add a source of the data and then add the layer out of the source
-    map.addSource('case-count', {
+    map.addSource('cov19-rates', {
         type: 'geojson',
-        data: 'assets/us-covid-2020-counts.geojson'
+        data: 'assets/us-covid-2020-rates.geojson'
     });
 
     map.addLayer({
-        'id': 'case-count-point',
-        'type': 'circle',
-        'source': 'case-count',
+        'id': 'rates-layer',
+        'type': 'fill',
+        'source': 'cov19-rates',
         'paint': {
-            // increase the radii of the circle as the zoom level and dbh value increases
-            'circle-radius': {
-                'property': 'cases',
-                'stops': [
-                    [{
-                        zoom: 5,
-                        value: grades[0]
-                    }, radii[0]],
-                    [{
-                        zoom: 5,
-                        value: grades[1]
-                    }, radii[1]],
-                    [{
-                        zoom: 5,
-                        value: grades[2]
-                    }, radii[2]],
-                    [{
-                        zoom: 5,
-                        value: grades[3]
-                    }, radii[3]],
-                    [{
-                        zoom: 5,
-                        value: grades[4]
-                    }, radii[4]]
-                ]
-            },
-            'circle-color': {
-                'property': 'cases',
-                'stops': [
-                    [grades[0], colors[0]],
-                    [grades[1], colors[1]],
-                    [grades[2], colors[2]],
-                    [grades[3], colors[3]],
-                    [grades[4], colors[4]]
-                ]
-            },
-            'circle-stroke-color': 'white',
-            'circle-stroke-width': 1,
-            'circle-opacity': 0.6
+            'fill-color': [
+                'step',
+                ['get', 'rates'],
+                '#FFEDA0',   // stop_output_0
+                10,          // stop_input_0
+                '#FED976',   // stop_output_1
+                20,          // stop_input_1
+                '#FEB24C',   // stop_output_2
+                50,          // stop_input_2
+                '#FD8D3C',   // stop_output_3
+                100,         // stop_input_3
+                '#FC4E2A',   // stop_output_4
+                200,         // stop_input_4
+                '#E31A1C',   // stop_output_5
+                500,         // stop_input_5
+                '#BD0026',   // stop_output_6
+                1000,        // stop_input_6
+                "#800026"    // stop_output_7
+            ],
+            'fill-outline-color': '#BBBBBB',
+            'fill-opacity': 0.7,
         }
-    },
-        'waterway-label'
-    );
+    });
+
 
 
     // click on tree to view a popup
-    map.on('click', 'case-count-point', (event) => {
+    map.on('click', 'rates-layer', (event) => {
+        //console.log(event.features[0])
         new mapboxgl.Popup()
-            .setLngLat(event.features[0].geometry.coordinates)
+            .setLngLat(event.lngLat)
             .setHTML(`${event.features[0].properties.county}
                     ${event.features[0].properties.state}<br />
+                    <strong>Population:</strong> ${event.features[0].properties.pop18}<br />
                     <strong>Cases:</strong> ${event.features[0].properties.cases}<br />
+                    <strong>Rates:</strong> ${event.features[0].properties.rates}<br />
                     <strong>Deaths:</strong> ${event.features[0].properties.deaths}`)
             .addTo(map);
+            
     });
 
 });
@@ -91,14 +93,13 @@ map.on('load', () => { //simplifying the function statement: arrow with brackets
 const legend = document.getElementById('legend');
 
 //set up legend grades and labels
-var labels = ['<strong>Covid Case Counts</strong>'],
+var labels = ['<span id="legend-title">Covid Case Rates</span>'],
     vbreak;
 //iterate through grades and create a scaled circle and label for each
-for (var i = 0; i < grades.length; i++) {
-    vbreak = grades[i];
-    // you need to manually adjust the radius of each dot on the legend 
-    // in order to make sure the legend can be properly referred to the dot on the map.
-    dot_radii = 2 * radii[i];
+labels.push('<div id="map1-legend-labels">');
+for (var i = 0; i < layers.length; i++) {
+    vbreak = layers[i];
+    dot_radii = 20;
     labels.push(
         '<p class="break"><i class="dot" style="background:' + colors[i] + '; width: ' + dot_radii +
         'px; height: ' +
@@ -106,8 +107,9 @@ for (var i = 0; i < grades.length; i++) {
         '</span></p>');
 
 }
+labels.push('</div>');
 // add the data source
 const source =
-    '<p style="text-align: right; font-size:10pt">Source: <a href="https://earthquake.usgs.gov/earthquakes/">USGS</a></p>';
+    '<p style="text-align: center; font-size:10pt">Source:<br><a href="https://github.com/nytimes/covid-19-data/blob/43d32dde2f87bd4dafbb7d23f5d9e878124018b8/live/us-counties.csv">The New York Times</a></p>';
 // combine all the html codes.
 legend.innerHTML = labels.join('') + source;
