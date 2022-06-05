@@ -91,7 +91,7 @@ map.on('load', () => { //simplifying the function statement: arrow with brackets
 const legend = document.getElementById('legend');
 
 //set up legend grades and labels
-var labels = ['<strong>Covid Case Rates</strong>'],
+var labels = ['<strong>Covid Case Counts</strong>'],
     vbreak;
 //iterate through grades and create a scaled circle and label for each
 for (var i = 0; i < grades.length; i++) {

@@ -19,14 +19,14 @@ const layers = [
     '1000+'
 ];
 const colors = [
-    '#FFEDA070',
-    '#FED97670',
-    '#FEB24C70',
-    '#FD8D3C70',
-    '#FC4E2A70',
-    '#E31A1C70',
-    '#BD002670',
-    '#80002670'
+    '#FFEDA0',
+    '#FED976',
+    '#FEB24C',
+    '#FD8D3C',
+    '#FC4E2A',
+    '#E31A1C',
+    '#BD0026',
+    '#800026'
 ];
 
 //load data to the map as new layers.
